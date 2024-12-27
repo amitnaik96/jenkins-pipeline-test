@@ -1,7 +1,8 @@
 pipeline {
     agent any
     environment {
-        PYTHON_PATH = 'C:\\Users\\Amit\\AppData\\Local\\Programs\\Python\\Python311;C:\\Users\\Amit\\AppData\\Local\\Programs\\Python\\Python311\\Scripts'
+        PYTHON_PATH = 'C:/Users/Amit/AppData/Local/Programs/Python/Python311;C:/Users/Amit/AppData/Local/Programs/Python/Python311/Scripts'
+           SONAR_SCANNER_PATH = 'C:/Program Files/sonar-scanner-6.2.1.4610-windows-x64/bin'
     }
     stages {
         stage('Checkout') {
@@ -26,6 +27,8 @@ pipeline {
 
             steps {
                 bat '''
+                set PATH=%SONAR_SCANNER_PATH%;%PATH%
+                where sonar-scanner || echo "SonarQube scanner not found. Please install it."
                 set PATH=%PYTHON_PATH%;%PATH%
                 sonar-scanner -Dsonar.projectKey=jenkins-pipeline ^
                   -Dsonar.sources=. ^
